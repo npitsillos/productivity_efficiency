@@ -31,6 +31,12 @@ git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/py
 echo "[+] Adding pyenv virtualenv-init to .bashrc"
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
+echo "[+] Installing some dependencies..."
+
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
+libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
+xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+
 echo "[+] Finishing up..."
 exec "$SHELL"
 
