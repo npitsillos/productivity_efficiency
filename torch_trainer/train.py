@@ -19,15 +19,14 @@ class Trainer():
     
     def start(self):
         self.model.train()
-
+        self.model.to(self.device)
         while self.epoch < self.num_epochs:
             for inputs, targets in self.get_inputs_targets():
                 
                 self.optimizer.zero_grad()
-                inputs = torch.reshape(inputs, (64,1,784))
                 
+                targets = targets.to(self.device)
                 outputs = self.model(inputs)
-
                 loss = self.loss_criterion(outputs, targets)
                 
                 self.optimizer.zero_grad()

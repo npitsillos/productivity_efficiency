@@ -18,7 +18,7 @@ class Net(nn.Module):
     x = F.sigmoid(self.fc2(x))
     x = F.sigmoid(self.fc3(x))
     x = self.fc4(x)
-    return F.log_softmax(x)
+    return F.log_softmax(x, dim=1)
   
 if __name__ == "__main__":
   random_seed = 1
@@ -44,9 +44,10 @@ if __name__ == "__main__":
                                 torchvision.transforms.Normalize(
                                   (0.1307,), (0.3081,))
                               ])), batch_size=batch_size_test, shuffle=True)
-                              
+  
   net = Net()
+  print(torch.cuda.is_available())
   optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
   lr_scheduler = lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
-  trainer = Trainer(net, 10, train_loader, torch.device('cuda'), nn.NLLLoss(),optimizer,lr_scheduler,1)
+  trainer = Trainer(net, 10, train_loader, torch.device('cuda'), F.nll_loss ,optimizer,lr_scheduler,1)
   trainer.start()
