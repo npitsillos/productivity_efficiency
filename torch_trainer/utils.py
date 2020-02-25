@@ -8,6 +8,7 @@ class Logger(object):
         
         i = 0
         for obj in iterable_loader:
+            
             yield obj
 
             if i % print_freq == 0:
