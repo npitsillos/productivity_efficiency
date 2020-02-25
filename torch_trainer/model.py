@@ -88,3 +88,4 @@ if __name__ == "__main__":
 
     trainer = Trainer(model, args.epochs, train_loader, device, F.nll_loss, optimizer, scheduler, 1)
     trainer.start()
+    
