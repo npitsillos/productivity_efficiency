@@ -2,6 +2,8 @@ import sys
 import time
 import torch
 
+from utils import Logger
+
 class Trainer():
 
     def __init__(self, model, num_epochs, data_loader,
@@ -16,12 +18,13 @@ class Trainer():
         self.optimizer = optimizer
         self.lr_scheduler = lr_scheduler
         self.epoch = 0
+        self.logger = Logger()
     
     def start(self):
         self.model.train()
         self.model.to(self.device)
         while self.epoch < self.num_epochs:
-            for inputs, targets in self.get_inputs_targets():
+            for inputs, targets in self.logger.log_epoch(self.data_loader, self.print_freq, self.epoch):
                 
                 self.optimizer.zero_grad()
                 
@@ -33,8 +36,5 @@ class Trainer():
                 loss.backward()
                 self.optimizer.step()
 
+            self.lr_scheduler.step()
             self.epoch += 1
-    
-    def get_inputs_targets(self):
-        for obj in self.data_loader:
-            yield obj
