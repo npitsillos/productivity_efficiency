@@ -8,7 +8,6 @@ Contains a script that installs pyenv and pyenv-virtualenv.  The need to automat
 
 ## (2) torch_trainer
 
-Implements a wrapper over the whole process for training models in PyTorch.  In the future I will implement logging functionality to see the output at every epoch step
-and also prettify it somehow.
+Implements a wrapper over the whole process for training models in PyTorch.  In the future I will implement logging functionality to see the output at every epoch step.  Adapted from [here](https://github.com/pytorch/vision/tree/master/references/detection).
 
 # Please feel free to contribute by opening an issue
