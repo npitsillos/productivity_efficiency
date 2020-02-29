@@ -6,12 +6,13 @@ from utils import Logger
 
 class Trainer():
 
-    def __init__(self, model, num_epochs, data_loader,
+    def __init__(self, model, num_epochs, train_loader, val_loader,
                 device, loss_criterion, optimizer, lr_scheduler,
                 print_freq):
         self.model = model
         self.num_epochs = num_epochs
-        self.data_loader = data_loader
+        self.train_loader = train_loader
+        self.val_loader = val_loader
         self.device = device
         self.print_freq = print_freq
         self.loss_criterion = loss_criterion
@@ -20,12 +21,12 @@ class Trainer():
         self.epoch = 0
         self.logger = Logger()
     
-    def start(self):
+    def train_model(self):
         self.model.train()
         self.model.to(self.device)
         while self.epoch < self.num_epochs:
-            for inputs, targets in self.logger.log_epoch(self.data_loader, self.print_freq, self.epoch):
-                
+            header = "Epoch: [{}]".format(self.epoch)
+            for inputs, targets in self.logger.log(self.train_loader, self.print_freq, header):
                 self.optimizer.zero_grad()
                 
                 targets = targets.to(self.device)
@@ -36,5 +37,8 @@ class Trainer():
                 loss.backward()
                 self.optimizer.step()
 
-            self.lr_scheduler.step()
+                self.logger.update(loss=loss.cpu().detach().item())
+                self.logger.update(lr=self.optimizer.param_groups[0]["lr"])
+                self.lr_scheduler.step()
+            
             self.epoch += 1

@@ -86,5 +86,5 @@ if __name__ == "__main__":
 
     from train import Trainer
 
-    trainer = Trainer(model, args.epochs, train_loader, device, F.nll_loss, optimizer, scheduler, 1)
-    trainer.start()
+    trainer = Trainer(model, args.epochs, train_loader, test_loader, device, F.nll_loss, optimizer, scheduler, 1)
+    trainer.train_model()
