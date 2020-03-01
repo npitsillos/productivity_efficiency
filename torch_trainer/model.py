@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
 
-    from train import Trainer
+    from trainer import Trainer
 
     trainer = Trainer(model, args.epochs, train_loader, test_loader, device, F.nll_loss, optimizer, scheduler, 1)
     trainer.train_model()
